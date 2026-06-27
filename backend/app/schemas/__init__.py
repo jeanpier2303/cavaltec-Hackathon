@@ -1,3 +1,13 @@
+from app.schemas.auth import (
+    AuthenticatedUserResponse,
+    LoginRequest,
+    RefreshRequest,
+    RegisterRequest,
+    TokenResponse,
+    UserProfileResponse,
+    UserRoleResponse,
+    UserCompanyResponse,
+)
 from app.schemas.company import CompanyCreate, CompanyUpdate, CompanyResponse
 from app.schemas.role import RoleCreate, RoleUpdate, RoleResponse
 from app.schemas.permission import PermissionCreate, PermissionUpdate, PermissionResponse
@@ -43,6 +53,21 @@ from app.schemas.category_result import (
     CategoryResultUpdate,
     CategoryResultResponse,
 )
+from app.schemas.audit_log import (
+    AuditLogCreate,
+    AuditLogUpdate,
+    AuditLogResponse,
+)
+from app.schemas.ai_conversation import (
+    AIConversationCreate,
+    AIConversationUpdate,
+    AIConversationResponse,
+)
+from app.schemas.ai_recommendation import (
+    AIRecommendationCreate,
+    AIRecommendationUpdate,
+    AIRecommendationResponse,
+)
 
 __all__ = [
     "CompanyCreate",
@@ -84,4 +109,21 @@ __all__ = [
     "CategoryResultCreate",
     "CategoryResultUpdate",
     "CategoryResultResponse",
+    "AuditLogCreate",
+    "AuditLogUpdate",
+    "AuditLogResponse",
+    "AIConversationCreate",
+    "AIConversationUpdate",
+    "AIConversationResponse",
+    "AIRecommendationCreate",
+    "AIRecommendationUpdate",
+    "AIRecommendationResponse",
+    "RegisterRequest",
+    "LoginRequest",
+    "TokenResponse",
+    "RefreshRequest",
+    "AuthenticatedUserResponse",
+    "UserProfileResponse",
+    "UserRoleResponse",
+    "UserCompanyResponse",
 ]

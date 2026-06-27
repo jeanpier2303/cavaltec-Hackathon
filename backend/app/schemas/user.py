@@ -15,6 +15,7 @@ class UserBase(BaseModel):
     oauth_provider: OAuthProvider = OAuthProvider.LOCAL
     oauth_id: Optional[str] = None
     is_active: Optional[bool] = True
+    email_verified: Optional[bool] = False
 
 
 class UserCreate(UserBase):
@@ -28,12 +29,19 @@ class UserUpdate(UserBase):
     last_name: Optional[str] = None
     email: Optional[EmailStr] = None
     oauth_provider: Optional[OAuthProvider] = None
+    is_active: Optional[bool] = None
+    email_verified: Optional[bool] = None
 
 
 class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    failed_login_attempts: Optional[int] = 0
+    locked_until: Optional[datetime] = None
+    password_changed_at: Optional[datetime] = None
     last_login: Optional[datetime] = None
+    last_login_ip: Optional[str] = None
+    updated_by: Optional[int] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None

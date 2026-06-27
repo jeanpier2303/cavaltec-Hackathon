@@ -12,9 +12,12 @@ class Settings(BaseSettings):
 
     APP_NAME: str = "Privacy Compliance API"
     APP_ENV: str = "development"
+
     SECRET_KEY: str = ""
-    ALGORITHM: str = "HS256"
+    JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
+    TOKEN_TYPE: str = "bearer"
 
     MYSQL_DATABASE: str = "privacy_compliance"
     MYSQL_USER: str = "app_user"

@@ -27,6 +27,10 @@ class Company(Base):
     city: Mapped[Optional[str]] = mapped_column(String(120), nullable=True)
     department: Mapped[Optional[str]] = mapped_column(String(120), nullable=True)
     website: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)
+    logo_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    contact_person: Mapped[Optional[str]] = mapped_column(
+        String(100), nullable=True
+    )
     is_active: Mapped[Optional[bool]] = mapped_column(Boolean, default=True)
     created_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

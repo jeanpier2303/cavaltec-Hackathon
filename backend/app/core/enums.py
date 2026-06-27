@@ -15,9 +15,25 @@ class OAuthProvider(str, enum.Enum):
 
 
 class AssessmentStatus(str, enum.Enum):
+    DRAFT = "DRAFT"
     IN_PROGRESS = "IN_PROGRESS"
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
+
+
+class AuditAction(str, enum.Enum):
+    INSERT = "INSERT"
+    UPDATE = "UPDATE"
+    DELETE = "DELETE"
+    LOGIN = "LOGIN"
+    LOGOUT = "LOGOUT"
+    EXPORT = "EXPORT"
+
+
+class RecommendationStatus(str, enum.Enum):
+    PENDING = "PENDING"
+    APPLIED = "APPLIED"
+    DISMISSED = "DISMISSED"
 
 
 class ComplianceLevel(str, enum.Enum):

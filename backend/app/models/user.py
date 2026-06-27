@@ -31,8 +31,26 @@ class User(Base):
     )
     oauth_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     is_active: Mapped[Optional[bool]] = mapped_column(Boolean, default=True)
+    email_verified: Mapped[Optional[bool]] = mapped_column(
+        Boolean, default=False
+    )
+    failed_login_attempts: Mapped[Optional[int]] = mapped_column(
+        Integer, default=0
+    )
+    locked_until: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    password_changed_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
     last_login: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), nullable=True
+    )
+    last_login_ip: Mapped[Optional[str]] = mapped_column(
+        String(45), nullable=True
+    )
+    updated_by: Mapped[Optional[int]] = mapped_column(
+        Integer, ForeignKey("users.id"), nullable=True
     )
     created_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
@@ -45,4 +63,16 @@ class User(Base):
     role: Mapped["Role"] = relationship(back_populates="users")
     assessments: Mapped[list["Assessment"]] = relationship(
         back_populates="evaluator"
+    )
+    updated_by_user: Mapped[Optional["User"]] = relationship(
+        "User", remote_side="User.id", backref="updated_users"
+    )
+    audit_logs: Mapped[list["AuditLog"]] = relationship(
+        back_populates="user"
+    )
+    ai_conversations: Mapped[list["AIConversation"]] = relationship(
+        back_populates="user"
+    )
+    ai_recommendations: Mapped[list["AIRecommendation"]] = relationship(
+        back_populates="user"
     )

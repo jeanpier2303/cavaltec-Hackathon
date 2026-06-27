@@ -1,16 +1,24 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.core.config import settings
+from app.core.exceptions import (
+    ExpiredTokenError,
+    InactiveUserError,
+    InvalidCredentialsError,
+    InsufficientPermissionsError,
+    InvalidTokenError,
+)
 from app.routers import (
-    auth,
-    users,
-    companies,
+    ai,
     assessments,
+    auth,
+    companies,
+    dashboard,
     questions,
     reports,
-    dashboard,
-    ai,
+    users,
 )
 
 app = FastAPI(
@@ -31,6 +39,47 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.exception_handler(InvalidTokenError)
+async def invalid_token_handler(request: Request, exc: InvalidTokenError) -> JSONResponse:
+    return JSONResponse(
+        status_code=401,
+        content={"detail": exc.detail},
+    )
+
+
+@app.exception_handler(ExpiredTokenError)
+async def expired_token_handler(request: Request, exc: ExpiredTokenError) -> JSONResponse:
+    return JSONResponse(
+        status_code=401,
+        content={"detail": exc.detail},
+    )
+
+
+@app.exception_handler(InvalidCredentialsError)
+async def invalid_credentials_handler(request: Request, exc: InvalidCredentialsError) -> JSONResponse:
+    return JSONResponse(
+        status_code=401,
+        content={"detail": exc.detail},
+    )
+
+
+@app.exception_handler(InactiveUserError)
+async def inactive_user_handler(request: Request, exc: InactiveUserError) -> JSONResponse:
+    return JSONResponse(
+        status_code=403,
+        content={"detail": exc.detail},
+    )
+
+
+@app.exception_handler(InsufficientPermissionsError)
+async def insufficient_permissions_handler(request: Request, exc: InsufficientPermissionsError) -> JSONResponse:
+    return JSONResponse(
+        status_code=403,
+        content={"detail": exc.detail},
+    )
+
 
 app.include_router(auth.router)
 app.include_router(users.router)

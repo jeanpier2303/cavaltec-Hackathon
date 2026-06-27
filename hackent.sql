@@ -18,6 +18,51 @@ USE `privacy_compliance`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `ai_conversations`
+--
+
+DROP TABLE IF EXISTS `ai_conversations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ai_conversations` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `assessment_id` bigint DEFAULT NULL,
+  `user_id` bigint NOT NULL,
+  `prompt` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `response` longtext COLLATE utf8mb4_unicode_ci,
+  `model` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tokens_used` int DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_ai_user` (`user_id`),
+  KEY `fk_ai_assessment` (`assessment_id`),
+  CONSTRAINT `fk_ai_assessment` FOREIGN KEY (`assessment_id`) REFERENCES `assessments` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_ai_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_recommendations`
+--
+
+DROP TABLE IF EXISTS `ai_recommendations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ai_recommendations` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `assessment_result_id` bigint NOT NULL,
+  `title` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `priority` enum('LOW','MEDIUM','HIGH') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('PENDING','IN_PROGRESS','COMPLETED') COLLATE utf8mb4_unicode_ci DEFAULT 'PENDING',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_ai_result` (`assessment_result_id`),
+  CONSTRAINT `fk_ai_result` FOREIGN KEY (`assessment_result_id`) REFERENCES `assessment_results` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `assessment_answers`
 --
 
@@ -79,7 +124,7 @@ CREATE TABLE `assessments` (
   `evaluator_id` bigint NOT NULL,
   `started_at` datetime NOT NULL,
   `finished_at` datetime DEFAULT NULL,
-  `status` enum('IN_PROGRESS','COMPLETED','CANCELLED') COLLATE utf8mb4_unicode_ci DEFAULT 'IN_PROGRESS',
+  `status` enum('DRAFT','IN_PROGRESS','COMPLETED','CANCELLED') COLLATE utf8mb4_unicode_ci DEFAULT 'DRAFT',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_assessment_company` (`company_id`),
@@ -88,6 +133,30 @@ CREATE TABLE `assessments` (
   CONSTRAINT `fk_assessment_company` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`),
   CONSTRAINT `fk_assessment_user` FOREIGN KEY (`evaluator_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_assessment_version` FOREIGN KEY (`questionnaire_version_id`) REFERENCES `questionnaire_versions` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `audit_logs`
+--
+
+DROP TABLE IF EXISTS `audit_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `audit_logs` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `action` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `entity` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `entity_id` bigint DEFAULT NULL,
+  `old_values` json DEFAULT NULL,
+  `new_values` json DEFAULT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_audit_user` (`user_id`),
+  CONSTRAINT `fk_audit_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -133,6 +202,8 @@ CREATE TABLE `companies` (
   `city` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `department` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `website` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `logo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contact_person` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '1',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -314,10 +385,16 @@ CREATE TABLE `users` (
   `password_hash` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `oauth_provider` enum('LOCAL','GOOGLE','MICROSOFT') COLLATE utf8mb4_unicode_ci DEFAULT 'LOCAL',
   `oauth_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_verified` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Indica si el correo fue verificado',
+  `failed_login_attempts` int NOT NULL DEFAULT '0' COMMENT 'Intentos fallidos de inicio de sesión',
+  `locked_until` datetime DEFAULT NULL COMMENT 'Bloqueo temporal por múltiples intentos fallidos',
+  `password_changed_at` datetime DEFAULT NULL COMMENT 'Fecha del último cambio de contraseña',
   `is_active` tinyint(1) DEFAULT '1',
   `last_login` datetime DEFAULT NULL,
+  `last_login_ip` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Última dirección IP utilizada',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` bigint DEFAULT NULL COMMENT 'Usuario que realizó la última modificación',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_user_company` (`company_id`),
@@ -336,4 +413,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-26 15:15:41
+-- Dump completed on 2026-06-26 21:55:06

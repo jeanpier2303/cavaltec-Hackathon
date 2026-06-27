@@ -12,6 +12,9 @@ from app.models.assessment import Assessment
 from app.models.assessment_answer import AssessmentAnswer
 from app.models.assessment_result import AssessmentResult
 from app.models.category_result import CategoryResult
+from app.models.audit_log import AuditLog
+from app.models.ai_conversation import AIConversation
+from app.models.ai_recommendation import AIRecommendation
 
 __all__ = [
     "Company",
@@ -28,4 +31,7 @@ __all__ = [
     "AssessmentAnswer",
     "AssessmentResult",
     "CategoryResult",
+    "AuditLog",
+    "AIConversation",
+    "AIRecommendation",
 ]

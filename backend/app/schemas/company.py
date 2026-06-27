@@ -18,6 +18,8 @@ class CompanyBase(BaseModel):
     city: Optional[str] = None
     department: Optional[str] = None
     website: Optional[str] = None
+    logo_url: Optional[str] = None
+    contact_person: Optional[str] = None
     is_active: Optional[bool] = True
 
 
