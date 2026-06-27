@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Seguro | ComplianceIA CAVALTEC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login-styles.css">
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <!-- Panel Izquierdo: Contexto Institucional del Reto -->
+        <div class="auth-sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo">
+                    <span class="logo-accent">CT</span> Compliance<span class="logo-ia">IA</span>
+                </a>
+            </div>
+            <div class="sidebar-content">
+                <div class="badge-fase">Fase de Diseño: Ley 1581</div>
+                <h2>Privacidad desde el inicio de tus productos y procesos.</h2>
+                <p>Evalúa de forma automática la madurez de tu organización frente a la regulación colombiana de protección de datos con asistencia en tiempo real mediante IA.</p>
+                
+                <div class="mini-features-list">
+                    <div class="mini-feature-item">
+                        <span class="mf-icon">🛡️</span>
+                        <div>
+                            <h4>Seguridad OWASP Top 10</h4>
+                            <p>Sesiones seguras y cifrado granular de datos empresariales.</p>
+                        </div>
+                    </div>
+                    <div class="mini-feature-item">
+                        <span class="mf-icon">📊</span>
+                        <div>
+                            <h4>Resultados e Indicadores</h4>
+                            <p>Monitoreo mediante medidores porcentuales de brechas legales.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <p>Organiza: TECH WTraining · UdeA · U. de Caldas</p>
+                <p>Apoya: CAVALTEC · COMFACHOCO</p>
+            </div>
+        </div>
+
+        <!-- Panel Derecho: Formularios Dinámicos (Login / Registro) -->
+        <div class="auth-container">
+            
+            <!-- TARJETA DE INICIO DE SESIÓN -->
+            <div class="auth-card" id="login-card">
+                <div class="card-header">
+                    <h1>Iniciar sesión</h1>
+                    <p>Accede de forma segura a la gestión multiempresa.</p>
+                </div>
+
+                <!-- Proveedores OAuth Requeridos -->
+                <div class="oauth-group">
+                    <button class="btn-oauth">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path fill='%23EA4335' d='M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.327 2.682 1.386 6.618l3.88 3.147z'/><path fill='%234285F4' d='M16.04 15.345c-1.077.736-2.423 1.164-4.04 1.164-2.955 0-5.464-1.99-6.355-4.664L1.72 14.964C3.69 18.91 7.736 21.6 12 21.6c3.127 0 6.009-1.09 8.19-2.973l-4.15-3.282z'/><path fill='%23FBBC05' d='M5.645 11.845a6.746 6.746 0 0 1 0-2.09l-3.88-3.147A11.165 11.165 0 0 0 0 12c0 2.01.536 3.89 1.473 5.527l4.172-3.327a6.745 6.745 0 0 1 0-2.355z'/><path fill='%2334A853' d='M23.527 12.273c0-.818-.073-1.609-.209-2.373H12v4.509h6.473c-.273 1.455-1.09 2.691-2.318 3.518l4.15 3.282c2.427-2.245 3.827-5.555 3.827-9.309z'/></svg>" alt="Google">
+                        Google
+                    </button>
+                    <button class="btn-oauth">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 23 23' width='24' height='24'><path fill='%23f35325' d='M0 0h11v11H0z'/><path fill='%2380bb00' d='M12 0h11v11H12z'/><path fill='%2300a4ef' d='M0 12h11v11H0z'/><path fill='%23ffb900' d='M12 12h11v11H12z'/></svg>" alt="Microsoft">
+                        Microsoft
+                    </button>
+                </div>
+
+                <div class="divider">
+                    <span>o continuar con correo corporativo</span>
+                </div>
+
+                <!-- Formulario de Credenciales Clásicas con Validaciones Estéticas -->
+                <form class="auth-form" onsubmit="return false;">
+                    <div class="input-group">
+                        <label for="login-email">Correo Electrónico</label>
+                        <input type="email" id="login-email" placeholder="nombre@empresa.com" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="label-wrapper">
+                            <label for="login-password">Contraseña</label>
+                            <a href="#" class="form-link-sm">¿La olvidaste?</a>
+                        </div>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn-auth-submit">Ingresar de forma segura</button>
+                </form>
+
+                <div class="card-footer">
+                    ¿Tu empresa no está registrada? <a href="#registro" class="toggle-card-link">Crear una cuenta</a>
+                </div>
+            </div>
+
+
+            <!-- TARJETA DE REGISTRO E INFORMACIÓN DE EMPRESA -->
+            <div class="auth-card hidden" id="register-card">
+                <div class="card-header">
+                    <h1>Registrar Organización</h1>
+                    <p>Inicia el autodiagnóstico configurando los datos básicos exigidos para la evaluación.</p>
+                </div>
+
+                <form class="auth-form" onsubmit="return false;">
+                    <!-- Datos de Cuenta de Usuario -->
+                    <div class="form-section-title">Datos del Administrador</div>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="reg-name">Nombre Completo</label>
+                            <input type="text" id="reg-name" placeholder="Ej. Juan Pérez" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="reg-email">Correo Corporativo</label>
+                            <input type="email" id="reg-email" placeholder="jperez@empresa.com" required>
+                        </div>
+                    </div>
+
+                    <!-- Datos Básicos Obligatorios de la Empresa -->
+                    <div class="form-section-title">Información Básica de la Empresa</div>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="company-name">Razón Social</label>
+                            <input type="text" id="company-name" placeholder="Nombre de la Empresa" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="company-nit">NIT</label>
+                            <input type="text" id="company-nit" placeholder="800.123.456-7" required>
+                        </div>
+                    </div>
+
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="company-sector">Sector Económico</label>
+                            <select id="company-sector" required>
+                                <option value="" disabled selected>Seleccione un sector</option>
+                                <option value="tecnologia">Tecnología y Software</option>
+                                <option value="financiero">Financiero y Seguros</option>
+                                <option value="salud">Salud y Farmacéutico</option>
+                                <option value="comercio">Comercio / Retail</option>
+                                <option value="educacion">Educación</option>
+                                <option value="publico">Sector Público</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="company-size">Tamaño de la Empresa</label>
+                            <select id="company-size" required>
+                                <option value="" disabled selected>Seleccione el tamaño</option>
+                                <option value="micro">Microempresa (1-10 empleados)</option>
+                                <option value="pequena">Pequeña (11-50 empleados)</option>
+                                <option value="mediana">Mediana (51-200 empleados)</option>
+                                <option value="grande">Grande (Más de 200 empleados)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-checkbox">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">Acepto los Términos de Servicio y la Política de Privacidad de Datos bajo la Ley 1581.</label>
+                    </div>
+
+                    <button type="submit" class="btn-auth-submit">Finalizar Registro e Iniciar Fase de Diseño</button>
+                </form>
+
+                <div class="card-footer">
+                    ¿Ya tienes una cuenta? <a href="#login" class="toggle-card-link">Iniciar sesión</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Simulación de enrutamiento básico mediante CSS `:target` o JS reactivo posterior -->
+    <script>
+        // Fragmento opcional de JS puramente estético para alternar las cards del prototipo sin recargar la página.
+        const links = document.querySelectorAll('.toggle-card-link');
+        const loginCard = document.getElementById('login-card');
+        const registerCard = document.getElementById('register-card');
+
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginCard.classList.toggle('hidden');
+                registerCard.classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
